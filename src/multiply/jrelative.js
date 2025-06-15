@@ -1,3 +1,4 @@
+//@ts-self-types="../../type/multiply/jrelative.d.ts"
 import { batchInverse } from "../helper/batchinverse.js";
 import { alignMemo, doubleAddRelative, doubleRelative } from "../point/jacobirelative.js";
 import { computeWNAF } from "../scalar/decompose.js";

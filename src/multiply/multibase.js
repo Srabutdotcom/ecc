@@ -1,3 +1,4 @@
+//@ts-self-types="../../type/multiply/multibase.d.ts"
 import { batchInverse } from "../helper/batchinverse.js";
 import { chunkScalar } from "../scalar/decompose.js";
 import { baseTable } from "../table/table.js";

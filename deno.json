@@ -3,9 +3,7 @@
   "version": "0.0.1",
   "exports": "./src/mod.ts",
   "publish": {
-    "exclude": [
-  
-    ]
+    "exclude": []
   },
   "tasks": {
     "test": "deno test --allow-read",
@@ -24,7 +22,5 @@
       ]
     }
   },
-  "imports": {
-    "@std/assert": "jsr:@std/assert@^1.0.13",
-  }
+  "imports": {}
 }

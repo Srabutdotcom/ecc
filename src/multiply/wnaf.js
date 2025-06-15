@@ -1,3 +1,4 @@
+//@ts-self-types="../../type/multiply/wnaf.d.ts"
 import { batchInverse } from "../helper/batchinverse.js";
 import { computeWNAF } from "../scalar/decompose.js";
 import { oddTable } from "../table/table.js";

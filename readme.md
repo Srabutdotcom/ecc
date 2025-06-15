@@ -1,7 +1,7 @@
 # @aicone/ecc
 
 # ECC
-@version __VERSION__
+@version 0.0.1
 
 
 ## Features

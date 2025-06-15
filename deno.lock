@@ -1,20 +1,5 @@
 {
   "version": "5",
-  "specifiers": {
-    "jsr:@std/assert@^1.0.13": "1.0.13",
-    "jsr:@std/internal@^1.0.6": "1.0.6"
-  },
-  "jsr": {
-    "@std/assert@1.0.13": {
-      "integrity": "ae0d31e41919b12c656c742b22522c32fb26ed0cba32975cb0de2a273cb68b29",
-      "dependencies": [
-        "jsr:@std/internal"
-      ]
-    },
-    "@std/internal@1.0.6": {
-      "integrity": "9533b128f230f73bd209408bb07a4b12f8d4255ab2a4d22a1fd6d87304aca9a4"
-    }
-  },
   "redirects": {
     "https://deno.land/std/path/mod.ts": "https://deno.land/std@0.224.0/path/mod.ts"
   },
@@ -131,10 +116,5 @@
     "https://deno.land/std@0.224.0/semver/try_parse.ts": "043204f1235243c3d02b66ffca2c37dc2941e417dbccaf6c3a15b476a33f0e24",
     "https://deno.land/std@0.224.0/semver/try_parse_range.ts": "cf1e2d489bbe9ed6185de551acdf708e23e0e1bc4be0958052dfef178f763eee",
     "https://deno.land/std@0.224.0/semver/types.ts": "9286e72b160e25856608f4bc5f08f8f5ccba54e6cdfc9aba8adee68a355c4b36"
-  },
-  "workspace": {
-    "dependencies": [
-      "jsr:@std/assert@^1.0.13"
-    ]
   }
 }

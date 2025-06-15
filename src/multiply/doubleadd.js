@@ -1,3 +1,5 @@
+//@ts-self-types="../../type/multiply/doubleadd.d.ts"
+
 function doubleadd(P, k) {
    if (k === 0n) return P.constructor.ZERO; //! Infinity
    if (k === 1n) return P;
