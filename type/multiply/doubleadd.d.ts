@@ -18,5 +18,5 @@ declare function doubleadd<T extends {
    constructor: { ZERO: T };
  }>(P: T, k: bigint): T;
  
- export = doubleadd;
+ export { doubleadd };
  
