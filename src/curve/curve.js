@@ -1,4 +1,4 @@
-import { sha256, sha384, sha512 } from "jsr:@noble/hashes/sha2@1.8.0"
+import { sha256, sha384, sha512 } from "jsr:@noble/hashes@1.8.0/sha2"
 
 const secp521r1 = { // {@link https://neuromancer.sk/std/secg/secp521r1#}
   name: 'secp521r1',
