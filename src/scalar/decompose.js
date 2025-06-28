@@ -1,3 +1,5 @@
+import { memoized } from "../mod.ts";
+
 function computeWNAF(k, w = 4) {
    const wnaf = [];
    const wSize = 1n << BigInt(w);
@@ -30,4 +32,13 @@ function chunkScalar(k, w = 4) {
    return chunks
 }
 
-export { computeWNAF, chunkScalar }
+var chunkMemo = memoized((ko, w)=>{
+   const { k } = ko;
+   return chunkScalar(k, w)
+});
+var wnafMemo = memoized((ko, w)=>{
+   const { k } = ko;
+   return computeWNAF(k, w)
+})
+
+export { computeWNAF, wnafMemo, chunkScalar, chunkMemo }

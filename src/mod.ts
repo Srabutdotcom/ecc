@@ -1,4 +1,4 @@
-export * from "./curve/curve.js"
+export * from "./curve/mod.ts"
 export * from "./helper/mod.ts"
 export * from "./multiply/mod.ts"
 export * from "./point/mod.ts"

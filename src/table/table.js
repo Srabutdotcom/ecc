@@ -1,4 +1,6 @@
-function baseTable(P, w = 4, norm = false) {
+import { batchInverse, memoized } from "../mod.ts";
+
+function baseTable(P, { w = 4, normalize = false } = {}) {
    const L = [];
    L[0] = P.constructor.ZERO
    L[1] = P
@@ -19,10 +21,12 @@ function baseTable(P, w = 4, norm = false) {
          }
       }
    }
-   return norm ? L.map(e=>e.normalize()) : L//
+   if (!normalize) return L;
+   const inv = batchInverse(L.map(e => e.z), P.constructor.CURVE.p);
+   return L.map((p, i) => p.normalize(inv[i]))
 }
 
-function oddTable(P, w = 4, norm = false) {
+function oddTable(P, { w = 4, normalize = false } = {}) {
    const table = []
    const max = 1 << (w - 1); // e.g. 16 for w = 5 → covers up to 31P
 
@@ -32,7 +36,12 @@ function oddTable(P, w = 4, norm = false) {
       const prev = table.at(i - 2);
       table[i] = curr.add(prev)
    }
-   return norm ? table.map(e=>e?.normalize()): table;
+   if (!normalize) return table;
+   const inv = batchInverse(table.map(e => e.z), P.constructor.CURVE.p);
+   return table.map((p, i) => p.normalize(inv[i]))
 }
 
-export { baseTable, oddTable }
+var oddMemo = memoized(oddTable)
+var baseMemo = memoized(baseTable)
+
+export { baseTable, baseMemo, oddTable, oddMemo }

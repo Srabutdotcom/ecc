@@ -1,5 +1,11 @@
 import { mod, modInv } from "../point/modular.js";
 
+/**
+ * Efficiently invert an array of Field elements.
+ * Exception-free. Will return `undefined` for 0 elements.
+ * @param passZero map 0 to 0 (instead of undefined)
+ * @link abstract/modular.ts
+ */
 function batchInverse(nums, p) {
    const inverted = [];
    // Walk from first to last, multiply them by each other MOD p

@@ -1,4 +1,5 @@
 class Point3D {
+   neg
    constructor(x, y, z = 1n) {
       this.x = x;
       this.y = y;
@@ -16,7 +17,9 @@ class Point3D {
    }
    negate() {
       if (this.infinity) return this;
-      return new this.constructor(this.x, -this.y, this.z);
+      if (this.neg) return this.neg
+      this.neg = new this.constructor(this.x, -this.y, this.z); 
+      return this.neg
    }
 }
 

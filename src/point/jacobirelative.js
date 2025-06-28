@@ -1,12 +1,8 @@
 import { memoized } from "../helper/memoize.js";
-import { Jacobi } from "./jacobi.js";
-import { add, modInv, mul, sqr, sub } from "./modular.js";
+import { add, mod, modInv, mul, sqr, sub } from "./modular.js";
 
 //{@link https://eprint.iacr.org/2014/1014.pdf}
-class JRelative extends Jacobi {
-   constructor(x, y, z = 1n, s, t, u) {
-      super(x, y, z, s)
-   }
+class JRelative  {
    doubleAdd(P0) {
       return doubleAddRelative(P0, this)
    }
@@ -36,24 +32,17 @@ function doubleAddRelative(P0, P1) {
 
    for (let i = 0; i < 2; i++) {
       // Step 5–18: core addition
-      T = sub(Y1 , V, p);           // T = L = Y1 − V
-      V = sub(X1 , U, p);           // V = X1 − U
-      Z01 = mul(V, Z01, p);        // Z01 = (X1 - X2)Z01 = Z03 (can use S as temp) 
+      let L = sub(Y1, V, p);           // T = L = Y1 − V
+      let W = sub(X1, U, p);           // V = X1 − U
+      Z01 = mul(W, Z01, p);        // Z01 = (X1 - X2)Z01 = Z03 (can use S as temp) 
 
-      S = mul(V, V, p);               // S = V^2 = (X1 - X2)^2
+      S = mul(W, W, p);               // S = V^2 = (X1 - X2)^2
       V = mul(U, S, p);            // V = U * S = X2(X1 - X2)^2
       U = mul(X1, S, p);           // U = X1 * S = X1(X1 - X2)^2
 
-      X1 = mul(T, T, p);              // X1 = T^2 = L^2
-      S = sub(X1 , V, p);           // S = X1 − V
-      X1 = sub(S , U, p);           // X3 = S − U
-
-      S = sub(U , V, p);            // S = U − V
-      V = mul(Y1, S, p);           // V = Y1 * S
-
-      Y1 = sub(U , X1, p);          // Y3 = U − X3
-      S = mul(T, Y1, p);           // S = T * Y3
-      Y1 = sub(S , V, p);           // Y3 = S − V
+      X1 = mod(L * L - V - U, p);           // X3 = S − U
+      V = mul(Y1, U - V, p);           // V = Y1 * S
+      Y1 = mod(L * (U - X1) - V, p)//sub(S, V, p);           // Y3 = S − V
    }
 
    return new P0.constructor(X1, Y1, Z01)//{ X: X3, Y: Y3, Z: Z01 };
@@ -68,40 +57,23 @@ function doubleRelative(P1, isLastDouble) {
    let S = s, T, U, V;
 
    if (!S) {
-      S = sqr(Z01, p);          // S = Z01^2
-      T = mul(S, S, p);            // T = S^2 = Z01^4
-      S = mul(T, a, p);       //! S = aZ4_0 = a * Z01^4
+      S = mod(a * Z01 * Z01 * Z01 * Z01, p) //mul(T, a, p);       //! S = aZ4_0 = a * Z01^4
    }
 
-   U = mul(X1, X1, p);             // U = X1^2
-   T = add(U , U, p);           // T = 2 * X1^2
-   V = add(T , U, p);           // V = 3 * X1^2
+   T = mod(3n * X1 * X1 + S, p)//add(V, S, p);           //! T = L = 3X1^2 + aZ4
+   Z01 = mod(2n * Y1 * Z01, p)   //! Z01 = 2 * Y1 * Z01 = Z03
 
-   T = add(V , S, p);           //! T = L = 3X1^2 + aZ4
+   Y1 = mod(2n * Y1 * Y1, p) //add(V, V, p);          // Y1 = 2Y1^2
+   V = mod(2n * X1 * Y1, p)//add(U, U, p);           // V = 4X1 * Y1^2
+   
+   X1 = mod(T * T - 2n * V, p)   //! X3 = X1 = L^2 − 8X1Y1^2
 
-   V = mul(Y1, Z01, p);        // V = Y1 * Z01
-   Z01 = add(V , V, p);         //! Z01 = 2 * Y1 * Z01 = Z03
-
-   V = mul(Y1, Y1, p);             // V = Y1^2
-   Y1 = add(V , V, p);          // Y1 = 2Y1^2
-   U = mul(X1, Y1, p);         // U = 2X1 * Y1^2
-   V = add(U , U, p);           // V = 4X1 * Y1^2
-
-   X1 = mul(T, T, p);             // X1 = L^2
-   U = sub(X1 , V, p);          // U = L^2 − 4X1Y1^2
-   X1 = sub(U , V, p);          //! X3 = X1 = L^2 − 8X1Y1^2
-
-   U = sub(V , X1, p);          // U = 4X1Y1^2 − X3
-   V = mul(T, U, p);           // V = L * (4X1Y1^2 − X3)
-
-   U = mul(Y1, Y1, p);             // U = 4Y1^4
-   T = add(U , U, p);           // T = 8Y1^4
-
-   Y1 = sub(V , T, p);          //! Y3 = V − 8Y1^4
+   V = mod(T * (V - X1), p)//mul(T, U, p);           // V = L * (4X1Y1^2 − X3)
+   T = mod(2n * Y1 * Y1, p)//add(U, U, p);           // T = 8Y1^4
+   Y1 = sub(V, T, p);  // mod(V - 2n * Y1 * Y1, p)//       //! Y3 = V − 8Y1^4
 
    if (!isLastDouble) {
-      U = mul(T, S, p);         // U = 8Y1^4 * aZ4
-      S = add(U , U, p);         //! S = 16Y1^4 * aZ4 = aZ4_3
+      S = mod(2n * T * S, p)//add(U, U, p);         //! S = 16Y1^4 * aZ4 = aZ4_3
    }
 
    return new P1.constructor(X1, Y1, Z01, S)//{ X: X1, Y: Y1, Z: Z01, aZ4: S };
@@ -118,49 +90,49 @@ function doubleRelativeGeneral(P, Z0sqr = 1n) {
    let T = mul(S, Z0sqr, p); // Z0'^2 * Z0² = Z0^2 Z0'^2 = Z1^2
 
    // Step 3: U = X1 + T
-   let U = add(X1 , T, p);
+   let U = add(X1, T, p);
 
    // Step 4: V = X1 - T
-   let V = sub(X1 , T, p);
+   let V = sub(X1, T, p);
 
    // Step 5: S = U * V
    S = mul(U, V, p); // S2 = X1^2 - Z1^4
 
    // Step 6: U = S + S
-   U = add(S , S, p);
+   U = add(S, S, p);
 
    // Step 7: T = U + S
-   T = add(U , S, p);
+   T = add(U, S, p);
 
    // Step 8: V = Y1 * Z0p
    V = mul(Y1, Z0p, p);
 
    // Step 9: Z0p = V + V
-   Z0p = add(V , V, p); //! new Z0p = Z0'^3
+   Z0p = add(V, V, p); //! new Z0p = Z0'^3
 
    // Step 10: V = Y1^2
    V = mul(Y1, Y1, p);
 
    // Step 11: Y1 = V + V
-   Y1 = add(V , V, p); // 2 * Y1^2
+   Y1 = add(V, V, p); // 2 * Y1^2
 
    // Step 12: U = X1 * Y1
    U = mul(X1, Y1, p);
 
    // Step 13: V = U + U
-   V = add(U , U, p); // 4 * X1 * Y1^2
+   V = add(U, U, p); // 4 * X1 * Y1^2
 
    // Step 14: X1 = T^2
    X1 = mul(T, T, p);
 
    // Step 15: U = X1 - V
-   U = sub(X1 , V, p);
+   U = sub(X1, V, p);
 
    // Step 16: X1 = U - V
-   X1 = sub(U , V, p); //! Final X3
+   X1 = sub(U, V, p); //! Final X3
 
    // Step 17: U = V - X1
-   U = sub(V , X1, p);
+   U = sub(V, X1, p);
 
    // Step 18: V = T * U
    V = mul(T, U, p);
@@ -169,16 +141,17 @@ function doubleRelativeGeneral(P, Z0sqr = 1n) {
    U = mul(Y1, Y1, p);
 
    // Step 20: T = U + U
-   T = add(U , U, p); // 8 * Y1^4
+   T = add(U, U, p); // 8 * Y1^4
 
    // Step 21: Y1 = V - T
-   Y1 = sub(V , T, p); //! Final Y3
+   Y1 = sub(V, T, p); //! Final Y3
 
    return new P.constructor(X1, Y1, Z0p);
 }
 
 var alignMemo = memoized((P, Zi) => {
    const { p, a } = P.constructor.CURVE
+   if (P.infinity) return P
    if (Zi == 1n) return new P.constructor(P.x, P.y, 1n, a)
    const scale = Zi ? Zi : modInv(P.z, p);
    const scale2 = sqr(scale, p);         // scale^2

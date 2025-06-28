@@ -1,15 +1,23 @@
 # @aicone/ecc
 
 # ECC
-@version undefined
+Elliptic Curve Cryptography
+@version 0.0.3
 
 
 ## Features
-
+- ✅ ECDSA verification: sync and async versions
 
 ## Usage
+```js
+import { ECC256, ECC384, ECC521, ecc } from "jsr:@aicone/ecc";
 
+ECC384.verify(message, signature, publicKey)
+//Synchronous ECDSA signature verification.
 
+ECC384.verifyAsync(message, signature, publicKey)
+//Asynchronous ECDSA signature verification.
+```
 
 ### Contributing
 
