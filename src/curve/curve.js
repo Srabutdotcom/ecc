@@ -1,9 +1,9 @@
 //import { sha256, sha384, sha512 } from "jsr:@noble/hashes@1.8.0/sha2"
 import { GF } from "./modular.js"
 import { shake256 } from "../hash/sha3_keccak.min.js"
-import { SHA384 } from "npm:@stablelib/sha384"
-import { SHA256 } from "npm:@stablelib/sha256"
-import { SHA512 } from "npm:@stablelib/sha512"
+import { SHA384 } from "npm:@stablelib/sha384@2.0.1"
+import { SHA256 } from "npm:@stablelib/sha256@2.0.1"
+import { SHA512 } from "npm:@stablelib/sha512@2.0.1"
 
 const sha256 = new SHA256();
 const sha384 = new SHA384();
