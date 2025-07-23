@@ -8,14 +8,14 @@ import { baseTable } from "../table/table.js";
  * @param {number} w 
  * @returns 
  */
-function multibase(P, k, { w = 4, normalize = true } = {}) { // ! w = 4 is optimum for speed
+function multibase(P, k, { w = 4, normalize = false } = {}) { // ! w = 4 is optimum for speed
    const table = baseTable(P, { w, normalize })//baseMemo(P, w, normalize)//
    const chunks = chunkScalar(k, w);//chunkMemo({k}, w)//
 
    return multibaseCore(P, w, chunks, table)
 }
 
-async function multibaseAsync(P, k, { w = 4, normalize = true } = {}) { // ! w = 4 is optimum for speed
+async function multibaseAsync(P, k, { w = 4, normalize = false } = {}) { // ! w = 4 is optimum for speed
    const P2 = new Promise(r => {
       const table = baseTable(P, { w, normalize })//baseMemo(P, w, normalize)//
       r(table)

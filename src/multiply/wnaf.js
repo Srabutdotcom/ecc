@@ -24,11 +24,13 @@ function wnafCore(P, table, wnaf) {
 
    const len = wnaf.length - 1
    for (let i = len; i >= 0; i--) {
-      if (i < len) Q = Q.double();
+      //! trick to avoid calculate extended if current digit 0 and not the last indez or i == 0
+      if (i < len) Q = Q.double(wnaf[i] == 0 && i !== 0);
       const digit = wnaf[i];
       if (digit !== 0) {
          const T = table.at(Math.abs(digit));
-         Q = digit > 0 ? Q.add(T) : Q.add(T.negate());
+         const isNext0 = wnaf[i-1]==0 && i == 1;
+         Q = digit > 0 ? Q.add(T, isNext0) : Q.add(T.negate(), isNext0);
       }
    }
    return Q;

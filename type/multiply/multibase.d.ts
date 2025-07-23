@@ -37,5 +37,5 @@ interface MultiBaseOptions {
   */
  declare function multibaseAsync<T>(P: T, k: bigint, options?: MultiBaseOptions): Promise<T>;
  
- export { multibase, multibaseAsync, MultiBaseOptions };
+ export { multibase, multibaseAsync };
  

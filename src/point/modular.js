@@ -1,6 +1,7 @@
 // Modular arithmetic utilities
 function mod(a, m) {
    //best than return ((a % m) + m) % m;
+   if (a >= 0n && a < m) return a;
    const r = a % m;
    return r >= 0n ? r : m + r;
 }

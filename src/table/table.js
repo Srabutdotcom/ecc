@@ -31,7 +31,7 @@ function oddTable(P, { w = 4, normalize = false } = {}) {
    const max = 1 << (w - 1); // e.g. 16 for w = 5 → covers up to 31P
 
    table[1] = P
-   let curr = P.double(); // 2P
+   const curr = P.double(); // 2P
    for (let i = 3; i < 2 * max; i += 2) {
       const prev = table.at(i - 2);
       table[i] = curr.add(prev)

@@ -1,6 +1,6 @@
 {
   "name": "@aicone/ecc",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "exports": "./src/mod.ts",
   "publish": {
     "exclude": []
@@ -22,5 +22,7 @@
       ]
     }
   },
-  "imports": {}
+  "imports": {
+    "@aicone/bench": "jsr:@aicone/bench@^0.0.9"
+  }
 }

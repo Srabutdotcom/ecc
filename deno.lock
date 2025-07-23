@@ -3,12 +3,18 @@
   "specifiers": {
     "jsr:@aicone/bench@*": "0.0.4",
     "jsr:@aicone/bench@0.0.6": "0.0.6",
+    "jsr:@aicone/bench@^0.0.9": "0.0.9",
     "jsr:@noble/curves@*": "1.9.0",
+    "jsr:@noble/curves@1.9.0": "1.9.0",
     "jsr:@noble/hashes@*": "1.8.0",
     "jsr:@noble/hashes@1.8.0": "1.8.0",
     "jsr:@std/path@*": "1.0.9",
     "jsr:@std/path@1.1.0": "1.1.0",
-    "npm:@stablelib/sha384@*": "2.0.1"
+    "npm:@stablelib/sha256@*": "2.0.1",
+    "npm:@stablelib/sha384@*": "2.0.1",
+    "npm:@stablelib/sha3@*": "2.0.1",
+    "npm:@stablelib/sha512@*": "2.0.1",
+    "npm:jssha@*": "3.3.1"
   },
   "jsr": {
     "@aicone/bench@0.0.4": {
@@ -16,6 +22,12 @@
     },
     "@aicone/bench@0.0.6": {
       "integrity": "0dfc156800d12e6e9f00fe550d360ee3c7d9cb093fbfb1f76f46b5af59f451e5",
+      "dependencies": [
+        "jsr:@std/path@1.1.0"
+      ]
+    },
+    "@aicone/bench@0.0.9": {
+      "integrity": "2ed2baa7a5e3b4e09bcc8555f2c3f9445dc1142f6bdde5e1bbf3cdfdc6bead68",
       "dependencies": [
         "jsr:@std/path@1.1.0"
       ]
@@ -49,10 +61,26 @@
     "@stablelib/int@2.0.1": {
       "integrity": "sha512-Ht63fQp3wz/F8U4AlXEPb7hfJOIILs8Lq55jgtD7KueWtyjhVuzcsGLSTAWtZs3XJDZYdF1WcSKn+kBtbzupww=="
     },
+    "@stablelib/sha256@2.0.1": {
+      "integrity": "sha512-LA1PaLDc6Lv72ppA4PEZ7abDE741KfG7k7QhBiUyIfViMqrwWv8HqQQFPeuPfS4k2OxFv++IAgc8HlvdBatD+w==",
+      "dependencies": [
+        "@stablelib/binary",
+        "@stablelib/hash",
+        "@stablelib/wipe"
+      ]
+    },
     "@stablelib/sha384@2.0.1": {
       "integrity": "sha512-B5jMyM8KmCQlrXDjPzCXoNRgxR1zMkZmlKeSTDkunaQWbQRiYo7QYS3zE0iVAPUaAVBTuPV9hqsFGpH5lIMHkA==",
       "dependencies": [
         "@stablelib/sha512"
+      ]
+    },
+    "@stablelib/sha3@2.0.1": {
+      "integrity": "sha512-SkYrAeeqP/3lYVUyJCe7O2XC7tzDFLNSceq/y1ctnS5FFKMLUCtDuxNZF/Yao4O62Qq7DjyX27YcRaaLmEWsuw==",
+      "dependencies": [
+        "@stablelib/binary",
+        "@stablelib/hash",
+        "@stablelib/wipe"
       ]
     },
     "@stablelib/sha512@2.0.1": {
@@ -65,6 +93,9 @@
     },
     "@stablelib/wipe@2.0.1": {
       "integrity": "sha512-1eU2K9EgOcV4qc9jcP6G72xxZxEm5PfeI5H55l08W95b4oRJaqhmlWRc4xZAm6IVSKhVNxMi66V67hCzzuMTAg=="
+    },
+    "jssha@3.3.1": {
+      "integrity": "sha512-VCMZj12FCFMQYcFLPRm/0lOBbLi8uM2BhXPTqw3U4YAfs4AZfiApOoBLoN8cQE60Z50m1MYMTQVCfgF/KaCVhQ=="
     }
   },
   "redirects": {
@@ -183,5 +214,10 @@
     "https://deno.land/std@0.224.0/semver/try_parse.ts": "043204f1235243c3d02b66ffca2c37dc2941e417dbccaf6c3a15b476a33f0e24",
     "https://deno.land/std@0.224.0/semver/try_parse_range.ts": "cf1e2d489bbe9ed6185de551acdf708e23e0e1bc4be0958052dfef178f763eee",
     "https://deno.land/std@0.224.0/semver/types.ts": "9286e72b160e25856608f4bc5f08f8f5ccba54e6cdfc9aba8adee68a355c4b36"
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@aicone/bench@^0.0.9"
+    ]
   }
 }

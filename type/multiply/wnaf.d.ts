@@ -35,5 +35,5 @@ interface WNAFOptions {
   */
  declare function signwnafAsync<T>(P: T, k: bigint, options?: WNAFOptions): Promise<T>;
  
- export { signwnaf, signwnafAsync, WNAFOptions };
+ export { signwnaf, signwnafAsync };
  

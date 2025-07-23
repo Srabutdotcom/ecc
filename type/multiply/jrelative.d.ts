@@ -33,5 +33,5 @@ interface MultiplyOptions {
   */
  declare function multiplyJRelativeAsync<T>(P: T, scalar: bigint, options?: MultiplyOptions): Promise<T>;
  
- export { multiplyJRelative, multiplyJRelativeAsync, MultiplyOptions };
+ export { multiplyJRelative, multiplyJRelativeAsync };
  
